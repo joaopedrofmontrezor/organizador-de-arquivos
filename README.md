@@ -44,14 +44,15 @@ Abra o arquivo main.py e altere a variável pasta_para_organizar para o diretór
 -Abra o diretório escolhido para ver suas pastas organizadas e o arquivo de log relatorio_organizacao.txt gerado.
 
 
-# Estrutura do Projeto
+# Estrutura do Repositório
 
+```
 organizador-de-arquivos/
 │
 ├── main.py                    # Script principal de automação e lógica
 ├── relatorio_organizacao.txt  # Relatório de log gerado após a execução
 └── README.md                  # Documentação do projeto
-
+```
 
 # 🤝 Contribuindo
 
