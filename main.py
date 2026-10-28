@@ -21,13 +21,12 @@ def organizar_pasta(caminho_alvo):
 
     print(f"Organizando a pasta: {diretorio.resolve()}\n")
 
-    
+   
     for arquivo in diretorio.iterdir():
         if arquivo.is_file():
             extensao = arquivo.suffix.lower()
             movido = False
 
-            
             for categoria, extensoes in MAPA_EXTENSOES.items():
                 if extensao in extensoes:
                     pasta_destino = diretorio / categoria
@@ -39,8 +38,14 @@ def organizar_pasta(caminho_alvo):
                     if destino_final.exists():
                         print(f"[Aviso] '{arquivo.name}' já existe em '{categoria}'. Ignorado.")
                     else:
-                        shutil.move(str(arquivo), str(destino_final))
-                        print(f"[Sucesso] {arquivo.name} -> {categoria}/")
+                        try:
+                            
+                            shutil.move(str(arquivo), str(destino_final))
+                            print(f"[Sucesso] {arquivo.name} -> {categoria}/")
+                        except PermissionError:
+                            print(f"[Erro de Permissão] '{arquivo.name}' está em uso por outro programa ou falta acesso.")
+                        except Exception as e:
+                            print(f"[Erro Inesperado] Não foi possível mover '{arquivo.name}': {e}")
                     
                     movido = True
                     break
@@ -52,13 +57,17 @@ def organizar_pasta(caminho_alvo):
                 destino_final = pasta_outros / arquivo.name
                 
                 if not destino_final.exists():
-                    shutil.move(str(arquivo), str(destino_final))
-                    print(f"[Outros] {arquivo.name} -> Outros/")
+                    try:
+                        shutil.move(str(arquivo), str(destino_final))
+                        print(f"[Outros] {arquivo.name} -> Outros/")
+                    except PermissionError:
+                        print(f"[Erro de Permissão] '{arquivo.name}' está em uso.")
+                    except Exception as e:
+                        print(f"[Erro Inesperado] Falha ao mover '{arquivo.name}': {e}")
 
     print("\nOrganização concluída!")
 
 if __name__ == "__main__":
-    
     pasta_para_organizar = "./teste_downloads" 
     os.makedirs(pasta_para_organizar, exist_ok=True)
     
